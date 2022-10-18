@@ -7,6 +7,7 @@ import './styles.css';
 export function Register() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [phone, setPhone] = useState('');
 
 
 
@@ -14,6 +15,11 @@ export function Register() {
   const handleSignOut = async (e) => {
     e.preventDefault();
     await signUp(email, password)
+  };
+
+  const sendPhoneNumber = async (e) => {
+    e.preventDefault();
+    await sendPhoneNumber(phone)
   };
 
 
@@ -46,9 +52,25 @@ export function Register() {
           />
         </div>
 
+        <div className='inputContainer'>
+          <label htmlFor='phone'>Telefone</label>
+          <input
+            type='phone'
+            name='phone'
+            id='phone'
+            placeholder='+55 11 9123456789'
+            onChange={(e) => setPhone(e.target.value)}
+          />
+        </div>
+        
         <button onClick={handleSignOut} className='button'>
-          Cadastrar
+          Autenticar usando e-mail
         </button>
+        &nbsp;
+        <button onClick={sendPhoneNumber} className='button'>
+          Autenticar usando celular
+        </button>
+
         <div className='footer'>
           <p>Você já tem uma conta?</p>
           <Link to='/'>Acesse sua conta aqui</Link>
