@@ -1,5 +1,5 @@
 import { initializeApp } from 'firebase/app';
-import { getAuth } from 'firebase/auth';
+import { getAuth, createUserWithEmailAndPassword, sendSignInLinkToEmail}  from 'firebase/auth';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyC86631nbR9vV25_UT5xLq8XOYHT3bQ0Do',
@@ -12,3 +12,29 @@ const firebaseConfig = {
 };
 const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
+
+const actionCodeSettings = {
+  url: 'http://localhost:5173',
+  handleCodeInApp: true,
+  };
+
+
+export const sendEmailVerification = async (email) => {
+  try {
+  await sendSignInLinkToEmail(auth, email, actionCodeSettings);
+
+  } catch (error) {
+    console.log(error)
+  }
+}
+ 
+
+export const signUp = async ( email, password ) => {
+  try {
+    const abc = await createUserWithEmailAndPassword(auth, email, password);
+    console.log(abc)
+  } catch (e) {
+   console.log(e)
+  }
+  await sendEmailVerification(email);
+};
