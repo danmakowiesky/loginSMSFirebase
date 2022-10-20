@@ -67,9 +67,10 @@ export const sendPhoneNumber = async (phoneNumber) => {
 
 export const sendPhoneCode = async (phoneCode) => {
   try {
-    await getCodeFromUserInput();
+    let confirmationResult = window.confirmationResult;
     confirmationResult.confirm(phoneCode).then((result) => {
       const user = result.user;
+      console.log(result.user);
     });
   } catch (error) {
     console.log(error);
