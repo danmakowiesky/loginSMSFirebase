@@ -87,7 +87,6 @@ export function Register() {
         >
           Confirmar código
         </button>
-        ``
         <div className='footer'>
           <p>Você já tem uma conta?</p>
           <Link to='/'>Acesse sua conta aqui</Link>
