@@ -18,7 +18,6 @@ const firebaseConfig = {
 };
 const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
-//const phoneNumber = getPhoneNumberFromUserInput();
 const appVerifier = window.recaptchaVerifier;
 
 const actionCodeSettings = {
@@ -46,19 +45,37 @@ export const signUp = async (email, password) => {
 
 export const sendPhoneNumber = async (phoneNumber) => {
   try {
-    await signInWithPhoneNumber(auth, phoneNumber, appVerifier);
+    await signInWithPhoneNumber(auth, phoneNumber, appVerifier).then(
+      (confirmationResult) => {
+        window.confirmationResult = confirmationResult;
+      }
+    );
   } catch (error) {
     console.log(error);
   }
 };
 
-window.recaptchaVerifier = new RecaptchaVerifier(
-  "sign-in-button",
-  {
-    size: "invisible",
-    callback: (response) => {
-      onSignInSubmit();
-    },
+export const sendPhoneCode = async (phoneCode) => {
+  try {
+    await getCodeFromUserInput();
+    confirmationResult.confirm(phoneCode).then((result) => {
+      const user = result.user;
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+window.recaptchaVerifier = new RecaptchaVerifier("recaptcha-container", {
+  size: "normal",
+  callback: function (response) {
+    console.log("success", response);
   },
-  auth
-);
+  "expired-callback": function () {
+    console.log("expired-callback");
+  },
+});
+
+recaptchaVerifier.render().then(function (widgetId) {
+  window.recaptchaWidgetId = widgetId;
+});

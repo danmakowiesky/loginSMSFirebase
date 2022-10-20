@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import  {signUp}  from '../../service/firebase';
+import  {signUp, sendPhoneNumber, sendPhoneCode}  from '../../service/firebase';
 
 import './styles.css';
 
 export function Register() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [phone, setPhone] = useState('');
+  const [phoneNumber, setPhone] = useState('');
+  const [phoneCode, setPhoneCode] = useState('');
 
 
 
@@ -17,9 +18,14 @@ export function Register() {
     await signUp(email, password)
   };
 
-  const sendPhoneNumber = async (e) => {
+  const PhoneNumber = async (e) => {
     e.preventDefault();
-    await sendPhoneNumber(phone)
+    await sendPhoneNumber(phoneNumber)
+  };
+
+  const sendPhoneNumberCode = async (e) => {
+    e.preventDefault();
+    await sendPhoneCode(phoneCode)
   };
 
 
@@ -55,25 +61,42 @@ export function Register() {
         <div className='inputContainer'>
           <label htmlFor='phone'>Telefone</label>
           <input
-            type='phone'
+            type='tel'
             name='phone'
             id='phone'
             placeholder='+55 11 9123456789'
             onChange={(e) => setPhone(e.target.value)}
           />
         </div>
-        
+
         <button onClick={handleSignOut} className='button'>
           Autenticar usando e-mail
         </button>
         &nbsp;
-        <button onClick={sendPhoneNumber} className='button'>
+        <button onClick={PhoneNumber} id="button-phone" className='button'>
           Autenticar usando celular
         </button>
+        &nbsp;
 
+        <div className='inputContainer'>
+          <label htmlFor='text'>Código de verificação</label>
+          <input
+            type='text'
+            name='text'
+            id='text'
+            placeholder='12345'
+            onChange={(e) => setPhoneCode(e.target.value)}
+          />
+        </div>
+        <button onClick={sendPhoneNumberCode} id="button-code" className='button'>
+          Confirmar código
+        </button>
+
+  
         <div className='footer'>
           <p>Você já tem uma conta?</p>
           <Link to='/'>Acesse sua conta aqui</Link>
+          <div id="recaptcha-container"></div>
         </div>
       </form>
     </div>
