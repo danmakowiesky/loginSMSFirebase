@@ -52,7 +52,7 @@ export function Login() {
           />
         </div>
         <a href='#'>Esqueceu sua senha ?</a>
-        <button className='button' onClick={handleSignIn}>
+        <button className='button' id='sign-in-button' onClick={handleSignIn}>
           Entrar
         </button>{' '}
         <div className='footer'>
