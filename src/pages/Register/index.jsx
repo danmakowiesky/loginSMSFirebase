@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { signUp, sendPhoneNumber, sendPhoneCode } from '../../service/firebase';
 
 import './styles.css';
@@ -10,6 +10,8 @@ export function Register() {
   const [phoneNumber, setPhone] = useState('');
   const [phoneCode, setPhoneCode] = useState('');
 
+  const navigate = useNavigate();
+
   const handleSignOut = async (e) => {
     e.preventDefault();
     await signUp(email, password);
@@ -19,10 +21,10 @@ export function Register() {
     e.preventDefault();
     await sendPhoneNumber(phoneNumber);
   };
-
   const sendPhoneNumberCode = async (e) => {
     e.preventDefault();
-    await sendPhoneCode(phoneCode);
+    const result = await sendPhoneCode(phoneCode);
+    navigate('/dashboard', { state: result });
   };
 
   return (
